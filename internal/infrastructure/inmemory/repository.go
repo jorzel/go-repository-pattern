@@ -4,30 +4,30 @@ import (
 	"context"
 	"fmt"
 
-	downloading "github.com/jorzel/resource-downloader/internal/domain/downloader"
+	downloader "github.com/jorzel/resource-downloader/internal/domain/downloader"
 )
 
 type InMemoryDownloaderRepository struct {
-	storage map[downloading.UserId]downloading.ResourceDownloader
+	Storage map[downloader.UserId]downloader.ResourceDownloader
 }
 
-var _ downloading.DownloaderRepository = (*InMemoryDownloaderRepository)(nil)
+var _ downloader.DownloaderRepository = (*InMemoryDownloaderRepository)(nil)
 
 func NewInMemoryDownloaderRepository() InMemoryDownloaderRepository {
 	return InMemoryDownloaderRepository{
-		storage: make(map[downloading.UserId]downloading.ResourceDownloader),
+		Storage: make(map[downloader.UserId]downloader.ResourceDownloader),
 	}
 }
 
-func (r InMemoryDownloaderRepository) Get(ctx context.Context, userId downloading.UserId) (downloading.ResourceDownloader, error) {
-	resourceDownloader, ok := r.storage[userId]
+func (r InMemoryDownloaderRepository) Get(ctx context.Context, userId downloader.UserId) (downloader.ResourceDownloader, error) {
+	resourceDownloader, ok := r.Storage[userId]
 	if !ok {
-		return downloading.ResourceDownloader{}, fmt.Errorf("downloader not found")
+		return downloader.ResourceDownloader{}, fmt.Errorf("downloader not found")
 	}
 	return resourceDownloader, nil
 }
 
-func (r InMemoryDownloaderRepository) Save(ctx context.Context, resourceDownloader downloading.ResourceDownloader) error {
-	r.storage[resourceDownloader.UserId] = resourceDownloader
+func (r InMemoryDownloaderRepository) Save(ctx context.Context, resourceDownloader downloader.ResourceDownloader) error {
+	r.Storage[resourceDownloader.UserId] = resourceDownloader
 	return nil
 }

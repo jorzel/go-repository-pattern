@@ -29,6 +29,9 @@ func (s DefaultDownloadService) DownloadResource(ctx context.Context, userId dow
 	if err != nil {
 		return err
 	}
+
+	// Take action to perform the download
+
 	err = s.DownloaderRepository.Save(ctx, resourceDownloader)
 	if err != nil {
 		return err
