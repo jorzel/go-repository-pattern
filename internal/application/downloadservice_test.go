@@ -37,7 +37,7 @@ func TestDownloadServiceReachLimit(t *testing.T) {
 	assert.NoError(t, err)
 	err = service.DownloadResource(context.Background(), userId, "resource3")
 	assert.Error(t, err)
-	resourceDownloaderFromRepo, _ := repository.Get(context.Background(), userId)
+	resourceDownloaderFromRepo, err := repository.Get(context.Background(), userId)
 	assert.NoError(t, err)
 	assert.Equal(t, []downloader.ResourceId{"resource1", "resource2"}, resourceDownloaderFromRepo.Resources)
 }
